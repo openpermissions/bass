@@ -1,4 +1,4 @@
-The Open Permissions Platform Identity Library
+The Open Permissions Platform - Identity Library
 ==============================================
 
 Table of Contents

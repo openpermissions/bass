@@ -81,12 +81,12 @@ sphinx:
 		-V $(SERVICE_VERSION) \
 		-R $(SERVICE_RELEASE) \
 		-H $(SOURCE_DIR) \
-		-A "Open Permissions Platform Coallition" \
-		-o $(SPHINX_DIR)/rst $(SOURCE_DIR)
+		-A "Open Permissions Platform Coalition" \
+		-o $(SPHINX_DIR) $(SOURCE_DIR)
 		
 		
 html: sphinx 
-	cd $(SPHINX_DIR)/rst && PYTHONPATH=$(SERVICEDIR) make html BUILDDIR=$(IN_SOURCE_DOC_DIR)
+	cd $(SPHINX_DIR) && PYTHONPATH=$(SERVICEDIR) make html BUILDDIR=$(IN_SOURCE_DOC_DIR)
 	
 	
 	

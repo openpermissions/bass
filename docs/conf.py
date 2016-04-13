@@ -203,7 +203,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
   ('index', 'bass.tex', u'bass Documentation',
-   u'Digital Catapult Limited', 'manual'),
+   u'Open Permissions Platform Coalition', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -233,7 +233,7 @@ latex_documents = [
 # (source start file, name, description, authors, manual section).
 man_pages = [
     ('index', 'bass', u'bass Documentation',
-     [u'Digital Catapult Limited'], 1)
+     [u'Open Permissions Platform Coalition'], 1)
 ]
 
 # If true, show URL addresses after external links.
@@ -268,9 +268,9 @@ texinfo_documents = [
 
 # Bibliographic Dublin Core info.
 epub_title = u'bass'
-epub_author = u'Open Permissions Platform Coallition'
-epub_publisher = u'Open Permissions Platform Coallition'
-epub_copyright = u'2016, Open Permissions Platform Coallition'
+epub_author = u'Open Permissions Platform Coalition'
+epub_publisher = u'Open Permissions Platform Coalition'
+epub_copyright = u'2016, Open Permissions Platform Coalition'
 
 # The basename for the epub file. It defaults to the project name.
 #epub_basename = u'bass'

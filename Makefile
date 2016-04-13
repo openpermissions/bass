@@ -40,6 +40,9 @@ SERVICE_DOC_DIR   = $(BUILDDIR)/service/html
 # Directory to find markdown docs
 DOC_DIR           = $(SERVICEDIR)/documents
 
+# Directory to find markdown docs
+SPHINX_DIR           = $(SERVICEDIR)/docs
+
 # Create list of target .html file names to be created based on all .md files found in the 'doc directory'
 md_docs :=  $(patsubst $(DOC_DIR)/%.md,$(SERVICE_DOC_DIR)/%.html,$(wildcard $(DOC_DIR)/*.md)) \
                 $(SERVICE_DOC_DIR)/README.html
@@ -71,29 +74,19 @@ pylint:
 	 }
 
 # Create .html docs from source code comments in python sphinx format
-sphinx_start: docs
+sphinx: 
 	$(SPHINXAPIDOC) \
 		-s rst \
 		--full \
 		-V $(SERVICE_VERSION) \
 		-R $(SERVICE_RELEASE) \
 		-H $(SOURCE_DIR) \
-		-A "Digital Catapult Limited" \
-		-o docs $(SOURCE_DIR)
-
-sphinx_update:
-	$(SPHINXAPIDOC) \
-		-s rst \
-		-f \
-		-V $(SERVICE_VERSION) \
-		-R $(SERVICE_RELEASE) \
-		-H $(SOURCE_DIR) \
-		-A "Digital Catapult Limited" \
-		-o docs $(SOURCE_DIR)
+		-A "Open Permissions Platform Coallition" \
+		-o $(SPHINX_DIR)/rst $(SOURCE_DIR)
 		
 		
-html: sphinx_start sphinx_update
-	cd docs && PYTHONPATH=$(SERVICEDIR) make html BUILDDIR=$(IN_SOURCE_DOC_DIR)
+html: sphinx 
+	cd $(SPHINX_DIR)/rst && PYTHONPATH=$(SERVICEDIR) make html BUILDDIR=$(IN_SOURCE_DOC_DIR)
 	
 	
 	

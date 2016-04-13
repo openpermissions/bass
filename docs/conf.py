@@ -21,7 +21,7 @@ import os
 sys.path.insert(0, os.path.abspath('.'))
 sys.path.insert(0, os.path.abspath('..'))
 import subprocess
-subprocess.Popen(["make", "sphinx_update"], cwd=os.path.abspath('..'))
+subprocess.Popen(["make", "sphinx"], cwd=os.path.abspath('..')).communicate()
 
 # -- General configuration ------------------------------------------------
 
@@ -268,9 +268,9 @@ texinfo_documents = [
 
 # Bibliographic Dublin Core info.
 epub_title = u'bass'
-epub_author = u'Digital Catapult Limited'
-epub_publisher = u'Digital Catapult Limited'
-epub_copyright = u'2016, Digital Catapult Limited'
+epub_author = u'Open Permissions Platform Coallition'
+epub_publisher = u'Open Permissions Platform Coallition'
+epub_copyright = u'2016, Open Permissions Platform Coallition'
 
 # The basename for the epub file. It defaults to the project name.
 #epub_basename = u'bass'

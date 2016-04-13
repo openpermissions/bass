@@ -50,7 +50,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'bass'
-copyright = u'2016, Digital Catapult Limited'
+copyright = u'2016, Open Permissions Platform Coalition'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -247,13 +247,13 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
   ('index', 'bass', u'bass Documentation',
-   u'Digital Catapult Limited', 'bass', 'One line description of project.',
+   u'Open Permissions Platform Coalition', 'bass', 'One line description of project.',
    'Miscellaneous'),
 ]
 
 # Documents to append as an appendix to all manuals.
 #texinfo_appendices = []
-
+    
 # If false, no module index is generated.
 #texinfo_domain_indices = True
 

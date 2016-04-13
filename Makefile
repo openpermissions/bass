@@ -71,19 +71,29 @@ pylint:
 	 }
 
 # Create .html docs from source code comments in python sphinx format
-sphinx:
+sphinx_start: docs
 	$(SPHINXAPIDOC) \
 		-s rst \
 		--full \
-		-f \
 		-V $(SERVICE_VERSION) \
 		-R $(SERVICE_RELEASE) \
 		-H $(SOURCE_DIR) \
 		-A "Digital Catapult Limited" \
 		-o docs $(SOURCE_DIR)
 
-html: sphinx
-	cd docs && PYTHONPATH=$(SERVICEDIR) make html #BUILDDIR=$(BUILD_SOURCE_DOC_DIR)
+sphinx_update:
+	$(SPHINXAPIDOC) \
+		-s rst \
+		-f \
+		-V $(SERVICE_VERSION) \
+		-R $(SERVICE_RELEASE) \
+		-H $(SOURCE_DIR) \
+		-A "Digital Catapult Limited" \
+		-o docs $(SOURCE_DIR)
+		
+		
+html: sphinx_start sphinx_update
+	cd docs && PYTHONPATH=$(SERVICEDIR) make html BUILDDIR=$(IN_SOURCE_DOC_DIR)
 	
 	
 	

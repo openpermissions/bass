@@ -3,15 +3,13 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to bass's documentation!
-================================
+Welcome to Open Permissions Identity Library's documentation!
+=============================================================
 
 Contents:
 
 .. toctree::
    :maxdepth: 4
-
-   bass
 
 
 Indices and tables

@@ -20,6 +20,8 @@ import os
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 sys.path.insert(0, os.path.abspath('.'))
 sys.path.insert(0, os.path.abspath('..'))
+import subprocess
+subprocess.Popen(["make", "sphinx"], cwd=os.path.abspath('..')).communicate()
 
 # -- General configuration ------------------------------------------------
 
@@ -48,7 +50,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'bass'
-copyright = u'2016, Digital Catapult Limited'
+copyright = u'2016, Open Permissions Platform Coalition'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -201,7 +203,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
   ('index', 'bass.tex', u'bass Documentation',
-   u'Digital Catapult Limited', 'manual'),
+   u'Open Permissions Platform Coalition', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -231,7 +233,7 @@ latex_documents = [
 # (source start file, name, description, authors, manual section).
 man_pages = [
     ('index', 'bass', u'bass Documentation',
-     [u'Digital Catapult Limited'], 1)
+     [u'Open Permissions Platform Coalition'], 1)
 ]
 
 # If true, show URL addresses after external links.
@@ -245,13 +247,13 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
   ('index', 'bass', u'bass Documentation',
-   u'Digital Catapult Limited', 'bass', 'One line description of project.',
+   u'Open Permissions Platform Coalition', 'bass', 'One line description of project.',
    'Miscellaneous'),
 ]
 
 # Documents to append as an appendix to all manuals.
 #texinfo_appendices = []
-
+    
 # If false, no module index is generated.
 #texinfo_domain_indices = True
 
@@ -266,9 +268,9 @@ texinfo_documents = [
 
 # Bibliographic Dublin Core info.
 epub_title = u'bass'
-epub_author = u'Digital Catapult Limited'
-epub_publisher = u'Digital Catapult Limited'
-epub_copyright = u'2016, Digital Catapult Limited'
+epub_author = u'Open Permissions Platform Coalition'
+epub_publisher = u'Open Permissions Platform Coalition'
+epub_copyright = u'2016, Open Permissions Platform Coalition'
 
 # The basename for the epub file. It defaults to the project name.
 #epub_basename = u'bass'

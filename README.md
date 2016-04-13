@@ -30,7 +30,7 @@ This has been tested using
 Prior to running any test the python pip dependencies need to be installed.
 Run the following command to do this
 ```bash
-make requirments
+make requirements
 ```
 
 ## Unit tests

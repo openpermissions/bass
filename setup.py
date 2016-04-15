@@ -10,8 +10,9 @@
 
 from setuptools import setup
 import re
+import os
 
-with open('bass/__init__.py', 'r') as fd:
+with open(os.path.join(os.path.abspath(os.path.dirname(__file__)),'bass/__init__.py'), 'r') as fd:
     version = re.search(r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]',
                         fd.read(), re.MULTILINE).group(1)
 

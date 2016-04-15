@@ -139,15 +139,15 @@ def test_is_hub_key_fails_invalid_entity_type():
 
 
 def test_parse_valid_hub_key_s0():
-    parsed = parse_hub_key('https://copyrighthub.org/s0/hub1/creation/maryevans/maryevanspictureid/10413373')
+    parsed = parse_hub_key('https://coPYrigHThub.org/S0/hUb1/creATion/4CoRnERs/4CoRnersPicTureID/ID-10413373')
     expected = {
         'resolver_id': 'https://copyrighthub.org',
         'schema_version': 's0',
         'hub_id': 'hub1',
         'entity_type': 'creation',
-        'organisation_id': 'maryevans',
-        'id_type': 'maryevanspictureid',
-        'entity_id': '10413373',
+        'organisation_id': '4corners',
+        'id_type': '4cornerspictureid',
+        'entity_id': 'ID-10413373',
     }
     assert parsed == expected
 
@@ -163,11 +163,6 @@ def test_parse_valid_hub_key_s1():
         'entity_id': 'e3cc6218db1711e5ab090242ac110013',
     }
     assert parsed == expected
-
-
-def test_normalise_hub_key():
-    normalised = normalise_hub_key('https://copyrighthub.org/S1/ChF/37cd1397e0814e989fa22da6b15fec60/Agreement/e3cc6218db1711e5ab090242ac110013')
-    assert normalised == 'https://copyrighthub.org/s1/chf/37cd1397e0814e989fa22da6b15fec60/agreement/e3cc6218db1711e5ab090242ac110013'
 
 
 def test_invalid_schema():

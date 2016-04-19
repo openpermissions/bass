@@ -26,5 +26,19 @@ setup(
     author='The Open Permissions Platform Coalition',
     author_email='support-copyrighthub@digicatapult.org.uk',
     url='https://github.com/openpermissions/identity-lib',
-    packages=['bass']
+    packages=['bass'],
+    license='Apache 2.0',
+    classifiers=(
+        'Development Status :: 5 - Production/Stable',
+        'Intended Audience :: Developers',
+        'Natural Language :: English',
+        'License :: OSI Approved :: Apache Software License',
+        'Programming Language :: Python',
+        'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: Implementation :: CPython',
+    ),
+    include_package_data=True,
+    package_data={
+        '': [ 'LICENSE' ]
+    }
     )

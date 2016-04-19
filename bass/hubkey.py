@@ -52,9 +52,9 @@ PARTS = OrderedDict([
 # Support for s0 hub key format
 PARTS_S0 = OrderedDict([
     ('resolver_id', RESOLVER_ID),
-    ('schema_version', 's0'),
+    ('schema_version', '(?i)s0'),
     ('hub_id', _PATH_PART),  # word char or -
-    ('entity_type', '|'.join(['creation', 'asset', 'offer'])),
+    ('entity_type', '|'.join(['(?i)creation', '(?i)asset', '(?i)offer'])),
     ('organisation_id', _PATH_PART),
     ('id_type', _PATH_PART),
     ('entity_id', _PATH_PART)
@@ -65,6 +65,14 @@ PATTERN = '^' + SEPARATOR.join(
 
 PATTERN_S0 = '^' + SEPARATOR.join(
     ['(?P<{}>{})'.format(p, r) for p, r in PARTS_S0.items()]) + '$'
+
+
+def normalise_part(t):
+    k, v = t
+    if k != 'entity_id':
+        return k, v.lower()
+    else:
+        return k, v
 
 
 def parse_hub_key(key):
@@ -79,10 +87,11 @@ def parse_hub_key(key):
 
     match = re.match(PATTERN, key)
     if not match:
-        match = re.match(PATTERN_S0, normalise_hub_key(key))
+        match = re.match(PATTERN_S0, key)
         if not match:
             raise ValueError('Not a valid key')
-        return dict(zip(PARTS_S0.keys(), match.groups()))
+
+        return dict(map(normalise_part, zip([p for p in PARTS_S0.keys()], match.groups())))
 
     return dict(zip(PARTS.keys(), match.groups()))
 
@@ -162,13 +171,3 @@ def generate_hub_key(resolver_id, hub_id, repository_id, entity_type, entity_id=
     hub_key = SEPARATOR.join(
         [resolver_id, SCHEMA, hub_id, repository_id, entity_type, entity_id])
     return hub_key
-
-
-def normalise_hub_key(hub_key):
-    """
-    Transforms a hub key so that all parts of the hub key respect proper casing.
-    :return: a normalised hub key
-    :param hub_key: the hub key to be normalised.
-    :ValueError: if the key is invalid
-    """
-    return hub_key.lower()

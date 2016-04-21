@@ -9,6 +9,7 @@ Table of Contents
 * [Running tests](#running-tests)
 * [Installation](#installation)
 * [Code Examples](#code-examples)
+* [Documentation](#Documentation)
 
 # Introduction
 

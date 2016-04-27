@@ -34,17 +34,17 @@ SERVICE_RELEASE   = 0.4.0
 # Directory to output python in source sphinx documentation
 IN_SOURCE_DOC_DIR = $(BUILDDIR)/in_source
 
-# Directory to output markdown converted docs to
+# Directory to output rst converted docs to
 SERVICE_DOC_DIR   = $(BUILDDIR)/service/html
 
-# Directory to find markdown docs
+# Directory to find rst docs
 DOC_DIR           = $(SERVICEDIR)/documents
 
-# Directory to find markdown docs
+# Directory to find rst docs
 SPHINX_DIR           = $(SERVICEDIR)/docs
 
-# Create list of target .html file names to be created based on all .md files found in the 'doc directory'
-md_docs :=  $(patsubst $(DOC_DIR)/%.md,$(SERVICE_DOC_DIR)/%.html,$(wildcard $(DOC_DIR)/*.md)) \
+# Create list of target .html file names to be created based on all .rst files found in the 'doc directory'
+rst_docs :=  $(patsubst $(DOC_DIR)/%.rst,$(SERVICE_DOC_DIR)/%.html,$(wildcard $(DOC_DIR)/*.rst)) \
                 $(SERVICE_DOC_DIR)/README.html
 
 clean:
@@ -91,21 +91,21 @@ html: sphinx
 
 
 # Dependencies of .html document files created from files in the 'doc directory'
-$(SERVICE_DOC_DIR)/%.html : $(DOC_DIR)/%.md
+$(SERVICE_DOC_DIR)/%.html : $(DOC_DIR)/%.rst
 	mkdir -p $(dir $@)
-	grip $< --export $@
+	rst2html.py $< $@
 
-# Dependenciy of .html document files created from README.md
-$(SERVICE_DOC_DIR)/%.html : %.md
+# Dependenciy of .html document files created from README.rst
+$(SERVICE_DOC_DIR)/%.html : %.rst
 	mkdir -p $(dir $@)
-	grip $< --export $@
+	rst2html.py $< $@
 
-# Create .html docs from all markdown files
-md_docs: $(md_docs)
+# Create .html docs from all rst files
+rst_docs: $(rst_docs)
 ifneq ($(wildcard $(DOC_DIR)),)
 # Copy dependent files required to render the views, e.g. images
 	rsync \
-		--exclude '*.md' \
+		--exclude '*.rst' \
 		--exclude 'eap' \
 		--exclude 'drawio' \
 		-r \
@@ -113,7 +113,7 @@ ifneq ($(wildcard $(DOC_DIR)),)
 endif
 
 # Create all docs
-docs: html md_docs
+docs: html rst_docs
 
 behave:
 	cd tests/behave && behave features -v --junit --junit-directory reports

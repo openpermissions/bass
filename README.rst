@@ -2,8 +2,7 @@
 The Open Permissions Platform - Identity Library
 ************************************************
 
-.. contents:: Table of Contents
-    :depth: 1
+.. contents:: :depth: 1
 
 Introduction
 ============

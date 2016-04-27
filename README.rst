@@ -1,15 +1,9 @@
+************************************************
 The Open Permissions Platform - Identity Library
-================================================
+************************************************
 
-Table of Contents
-=================
-
--  `Introduction <#introduction>`__
--  `Dependencies <#dependencies>`__
--  `Running tests <#running-tests>`__
--  `Installation <#installation>`__
--  `Code Examples <#code-examples>`__
--  `Documentation <#Documentation>`__
+.. contents:: Table of Contents
+    :depth: 1
 
 Introduction
 ============
@@ -80,10 +74,10 @@ Installation
     python setup.py install
 
 Generate a hub key
-------------------
+==================
 
 Code
-~~~~
+----
 
 .. code:: Python
 
@@ -99,14 +93,14 @@ Code
     print hub_key
 
 Output
-~~~~~~
+------
 
 .. code:: Console
 
     https://copyrighthub.org/s1/hub1/f8e3968eb99f48d6b9f84340efb64d47/asset/79fa0ce2e082467cad24703dcfdf7317
 
 Documentation
--------------
+=============
 
 Additional code documentation can be found at
 http://bass.readthedocs.org/en/stable/

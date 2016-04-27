@@ -20,7 +20,7 @@ if not version:
     raise RuntimeError('Cannot find version information')
 
 setup(
-    name='bass',
+    name='opp-bass',
     version=version,
     description='Open Permissions Platform Identity Library',
     author='The Open Permissions Platform Coalition',

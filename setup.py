@@ -25,7 +25,7 @@ setup(
     description='Open Permissions Platform Identity Library',
     author='The Open Permissions Platform Coalition',
     author_email='support-copyrighthub@digicatapult.org.uk',
-    url='https://github.com/openpermissions/identity-lib',
+    url='https://github.com/openpermissions/bass',
     packages=['bass'],
     license='Apache 2.0',
     classifiers=(

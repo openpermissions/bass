@@ -146,7 +146,7 @@ def generate_hub_key(resolver_id, hub_id, repository_id, entity_type, entity_id=
     :param repository_id: the type of id that the provider recognises
     :param entity_type: the type of the entity to which the key refers.
     :param entity_id: ID of entity (UUID)
-    :return: a hub key
+    :returns: a hub key
     :raises:
     :AttributeError: if a parameter has a bad value
     :TypeError: if a parameter has a bad value

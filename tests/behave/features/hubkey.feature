@@ -9,7 +9,7 @@
 Feature: Creating hub key is successful
 
   Background:
-    Given parameter "resolver_id" is "copyrighthub.org"
+    Given parameter "resolver_id" is "openpermissions.org"
     Given parameter "hub_id" is "hub1"
 
 

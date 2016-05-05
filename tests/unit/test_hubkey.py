@@ -65,7 +65,7 @@ INVALID_PARTS = [
     (u'https://maryeváns', 'resolver_id'),
     ('https://maryev%C3%A1ns', 'resolver_id'),  # maryeváns % encoded
     ('', 'resolver_id'),
-    ('copyrighthub.org', 'resolver_id'),
+    ('openpermissions.org', 'resolver_id'),
     (SCHEMA + '1', 'schema_version'),
     ('', 'hub_id'),
     (u'maryeváns', 'hub_id'),

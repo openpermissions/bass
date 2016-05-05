@@ -21,7 +21,7 @@ Feature: Creating hub key is successful
 
      Then no exception should be thrown
       And a valid hub key should be returned
-      And the hub key should start with "https://copyrighthub.org/s1/hub1/92bc723b1eb04b7fa13a5879b1ee990a/"
+      And the hub key should start with "https://openpermissions.org/s1/hub1/92bc723b1eb04b7fa13a5879b1ee990a/"
       And the hub key should have "<entity_type>" as entity type
       And the hub key should have a uuid as entity id
 

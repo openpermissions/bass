@@ -83,7 +83,7 @@ Code
     from bass.hubkey import create_hub_key
 
     hub_key = generate_hub_key(
-        resolver_id='copyrighthub.org',
+        resolver_id='openpermissions.org',
         hub_id='hub1',
         repository_id='f8e3968eb99f48d6b9f84340efb64d47',
         entity_type="asset"
@@ -96,7 +96,7 @@ Output
 
 .. code:: Console
 
-    https://copyrighthub.org/s1/hub1/f8e3968eb99f48d6b9f84340efb64d47/asset/79fa0ce2e082467cad24703dcfdf7317
+    https://openpermissions.org/s1/hub1/f8e3968eb99f48d6b9f84340efb64d47/asset/79fa0ce2e082467cad24703dcfdf7317
 
 Documentation
 =============

@@ -24,15 +24,15 @@ VALID_PATH_PARTS = [('test' + c, p) for p, c in
 VALID_PATH_PARTS.extend([('test' + '%6F', p) for p in _PATH_PARTS])
 
 VALID_PARTS = [
-    ('https://copyrighthub.org', 'resolver_id'),
-    ('https://copyrighthub.com', 'resolver_id'),
-    ('https://copy.right.hub.com', 'resolver_id'),
+    ('https://openpermissions.org', 'resolver_id'),
+    ('https://openpermissions.com', 'resolver_id'),
+    ('https://open.perm.issions', 'resolver_id'),
     ('https://localhost', 'resolver_id'),
     ('https://localhost:8006', 'resolver_id'),
-    ('https://copyright-hub', 'resolver_id'),
-    ('https://COPYRIGHThub', 'resolver_id'),
-    ('https://copyrighthub1', 'resolver_id'),
-    ('https://9copyrighthub', 'resolver_id'),
+    ('https://open-permissions', 'resolver_id'),
+    ('https://OPENPERMissions', 'resolver_id'),
+    ('https://openpermissions1', 'resolver_id'),
+    ('https://9openpermissions', 'resolver_id'),
     ('https://xn--maryevns-eza', 'resolver_id'),  # maryeváns idna encoded
     ('s1', 'schema_version'),
     ('chf', 'hub_id'),
@@ -111,12 +111,12 @@ def test_url_quote(string, expected):
 
 
 @pytest.mark.parametrize('hub_key', [
-    'https://copyrighthub.org/s1/chf/37cd1397e0814e989fa22da6b15fec60/asset/37cd1397e0814e989fa22da6b15fec60',
-    'https://copyrighthub.org/s1/chf/37cd1397e0814e989fa22da6b15fec60/offer/37cd1397e0814e989fa22da6b15fec60',
-    'https://copyrighthub.org/s1/chf/37cd1397e0814e989fa22da6b15fec60/agreement/37cd1397e0814e989fa22da6b15fec60',
-    'https://copyrighthub.org/s0/hub1/creation/maryevans/maryevanspictureid/10413373',
-    'https://copyrighthub.org/s0/hub1/asset/maryevans/maryevanspictureid/10413373',
-    'https://copyrighthub.org/s0/hub1/offer/maryevans/maryevansofferid/001',
+    'https://openpermissions.org/s1/chf/37cd1397e0814e989fa22da6b15fec60/asset/37cd1397e0814e989fa22da6b15fec60',
+    'https://openpermissions.org/s1/chf/37cd1397e0814e989fa22da6b15fec60/offer/37cd1397e0814e989fa22da6b15fec60',
+    'https://openpermissions.org/s1/chf/37cd1397e0814e989fa22da6b15fec60/agreement/37cd1397e0814e989fa22da6b15fec60',
+    'https://openpermissions.org/s0/hub1/creation/maryevans/maryevanspictureid/10413373',
+    'https://openpermissions.org/s0/hub1/asset/maryevans/maryevanspictureid/10413373',
+    'https://openpermissions.org/s0/hub1/offer/maryevans/maryevansofferid/001',
 ])
 def test_is_hub_key_passes(hub_key):
     assert is_hub_key(hub_key)
@@ -131,17 +131,17 @@ def test_is_hub_key_fails_not_specified():
 
 
 def test_is_hub_key_fails_missing_entity_id():
-    assert not is_hub_key('https://copyrighthub.org/s1/chf/37cd1397e0814e989fa22da6b15fec60/agreement')
+    assert not is_hub_key('https://openpermissions.org/s1/chf/37cd1397e0814e989fa22da6b15fec60/agreement')
 
 
 def test_is_hub_key_fails_invalid_entity_type():
-    assert not is_hub_key('https://copyrighthub.org/s1/chf/37cd1397e0814e989fa22da6b15fec60/footype/e3cc6218db1711e5ab090242ac110013')
+    assert not is_hub_key('https://openpermissions.org/s1/chf/37cd1397e0814e989fa22da6b15fec60/footype/e3cc6218db1711e5ab090242ac110013')
 
 
 def test_parse_valid_hub_key_s0():
-    parsed = parse_hub_key('https://coPYrigHThub.org/S0/hUb1/creATion/4CoRnERs/4CoRnersPicTureID/ID-10413373')
+    parsed = parse_hub_key('https://openPerMissIoNS.org/S0/hUb1/creATion/4CoRnERs/4CoRnersPicTureID/ID-10413373')
     expected = {
-        'resolver_id': 'https://copyrighthub.org',
+        'resolver_id': 'https://openpermissions.org',
         'schema_version': 's0',
         'hub_id': 'hub1',
         'entity_type': 'creation',
@@ -153,9 +153,9 @@ def test_parse_valid_hub_key_s0():
 
 
 def test_parse_valid_hub_key_s1():
-    parsed = parse_hub_key('https://copyrighthub.org/s1/chf/37cd1397e0814e989fa22da6b15fec60/agreement/e3cc6218db1711e5ab090242ac110013')
+    parsed = parse_hub_key('https://openpermissions.org/s1/chf/37cd1397e0814e989fa22da6b15fec60/agreement/e3cc6218db1711e5ab090242ac110013')
     expected = {
-        'resolver_id': 'https://copyrighthub.org',
+        'resolver_id': 'https://openpermissions.org',
         'schema_version': 's1',
         'hub_id': 'chf',
         'repository_id': '37cd1397e0814e989fa22da6b15fec60',
@@ -225,7 +225,7 @@ def test_generate_key_with_unicode():
 
 def test_generate_key_with_valid_entity_id():
     key = generate_hub_key(
-        u'https://copyrighthub.org',
+        u'https://openpermissions.org',
         u'hub1',
         u'37cd1397e0814e989fa22da6b15fec6a',
         'asset',
@@ -234,7 +234,7 @@ def test_generate_key_with_valid_entity_id():
     parsed = parse_hub_key(key)
 
     assert parsed == {
-        'resolver_id': 'https://copyrighthub.org',
+        'resolver_id': 'https://openpermissions.org',
         'hub_id': 'hub1',
         'schema_version': SCHEMA,
         'repository_id': '37cd1397e0814e989fa22da6b15fec6a',
@@ -246,7 +246,7 @@ def test_generate_key_with_valid_entity_id():
 def test_generate_key_with_invalid_entity_id():
     with pytest.raises(ValueError) as exc:
         generate_hub_key(
-            u'https://copyrighthub.org',
+            u'https://openpermissions.org',
             u'hub1',
             u'37cd1397e0814e989fa22da6b15fec6a',
             'asset',

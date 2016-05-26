@@ -153,7 +153,7 @@ def generate_hub_key(resolver_id, hub_id, repository_id, entity_type, entity_id=
     :ValueError: if a parameter has a bad value
     """
     prefix = PROTOCOL + '://'
-    hostname = resolver_id.lstrip(prefix)
+    hostname = re.sub('^'+prefix, '', resolver_id)
     resolver_id = '{}{}'.format(prefix, idna_encode(hostname.lower()))
     hub_id = url_quote(hub_id.lower())
 

@@ -195,18 +195,31 @@ def test_parse_empty_key():
 
 def test_parsing_generated_key():
     key = generate_hub_key(
-        'https://a', 'h', '37cd1397e0814e989fa22da6b15fec60', 'agreement')
+        'https://stage.openpermissions.org', 'h', '37cd1397e0814e989fa22da6b15fec60', 'agreement')
     parsed = parse_hub_key(key)
     parsed.pop('entity_id')
 
     assert parsed == {
-        'resolver_id': 'https://a',
+        'resolver_id': 'https://stage.openpermissions.org',
         'hub_id': 'h',
         'schema_version': SCHEMA,
         'repository_id': '37cd1397e0814e989fa22da6b15fec60',
         'entity_type': 'agreement',
     }
 
+def test_parsing_generated_key_without_https():
+    key = generate_hub_key(
+        'stage.openpermissions.org', 'h', '37cd1397e0814e989fa22da6b15fec60', 'agreement')
+    parsed = parse_hub_key(key)
+    parsed.pop('entity_id')
+
+    assert parsed == {
+        'resolver_id': 'https://stage.openpermissions.org',
+        'hub_id': 'h',
+        'schema_version': SCHEMA,
+        'repository_id': '37cd1397e0814e989fa22da6b15fec60',
+        'entity_type': 'agreement',
+    }
 
 def test_generate_key_with_unicode():
     key = generate_hub_key(

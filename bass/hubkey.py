@@ -37,7 +37,7 @@ UUID = r'[0-9a-f]{1,64}' # < relaxed definition (useful for fake ids used in tes
 # 63 characters. Each label must be separated with a period.
 # See RFC1123 & RFC952
 # The hub_id may optionally contain a port, e.g. localhost:8000
-RESOLVER_ID = r'{protocol}://{label}(?:\.{label})*{port}?'.format(
+RESOLVER_ID = r'{protocol}?://{label}(?:\.{label})*{port}?'.format(
     protocol=PROTOCOL, label=_HOST_LABEL, port=_PORT)
 
 PARTS = OrderedDict([

@@ -18,6 +18,7 @@ The generated hub key will be of the format
 
 import re
 import uuid
+from urlparse import urlparse, urlunparse
 from urllib import quote
 from collections import OrderedDict
 
@@ -152,9 +153,14 @@ def generate_hub_key(resolver_id, hub_id, repository_id, entity_type, entity_id=
     :TypeError: if a parameter has a bad value
     :ValueError: if a parameter has a bad value
     """
-    prefix = PROTOCOL + '://'
-    hostname = re.sub('^'+prefix, '', resolver_id)
-    resolver_id = '{}{}'.format(prefix, idna_encode(hostname.lower()))
+    parsed = urlparse(resolver_id)
+    if not parsed.scheme:
+        parsed = parsed._replace(scheme=PROTOCOL, netloc=idna_encode(parsed.path.lower()), path=u'')
+    else:
+        parsed = parsed._replace(netloc=idna_encode(parsed.netloc.lower()))
+
+    resolver_id = urlunparse(parsed)
+
     hub_id = url_quote(hub_id.lower())
 
     if not entity_id:

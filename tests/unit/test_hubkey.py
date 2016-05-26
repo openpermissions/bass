@@ -207,7 +207,21 @@ def test_parsing_generated_key():
         'entity_type': 'agreement',
     }
 
-def test_parsing_generated_key_without_https():
+def test_parsing_generated_key_with_http():
+    key = generate_hub_key(
+        'http://stage.openpermissions.org', 'h', '37cd1397e0814e989fa22da6b15fec60', 'agreement')
+    parsed = parse_hub_key(key)
+    parsed.pop('entity_id')
+
+    assert parsed == {
+        'resolver_id': 'http://stage.openpermissions.org',
+        'hub_id': 'h',
+        'schema_version': SCHEMA,
+        'repository_id': '37cd1397e0814e989fa22da6b15fec60',
+        'entity_type': 'agreement',
+    }
+
+def test_parsing_generated_key_without_scheme():
     key = generate_hub_key(
         'stage.openpermissions.org', 'h', '37cd1397e0814e989fa22da6b15fec60', 'agreement')
     parsed = parse_hub_key(key)
@@ -224,6 +238,7 @@ def test_parsing_generated_key_without_https():
 def test_generate_key_with_unicode():
     key = generate_hub_key(
         u'https://测试', u'hüb', u'37cd1397e0814e989fa22da6b15fec60', 'offer')
+
     parsed = parse_hub_key(key)
     parsed.pop('entity_id')
 
@@ -235,6 +250,20 @@ def test_generate_key_with_unicode():
         'entity_type': 'offer',
     }
 
+def test_generate_key_with_unicode_without_scheme():
+    key = generate_hub_key(
+        u'测试', u'hüb', u'37cd1397e0814e989fa22da6b15fec60', 'offer')
+
+    parsed = parse_hub_key(key)
+    parsed.pop('entity_id')
+
+    assert parsed == {
+        'resolver_id': 'https://xn--0zwm56d',
+        'hub_id': 'h%C3%BCb',
+        'schema_version': SCHEMA,
+        'repository_id': '37cd1397e0814e989fa22da6b15fec60',
+        'entity_type': 'offer',
+    }
 
 def test_generate_key_with_valid_entity_id():
     key = generate_hub_key(

@@ -11,6 +11,8 @@
 """
 from itertools import product
 
+from mock import patch
+
 from bass.hubkey import *
 import pytest
 
@@ -35,10 +37,7 @@ VALID_PARTS = [
     ('https://9openpermissions', 'resolver_id'),
     ('https://xn--maryevns-eza', 'resolver_id'),  # maryeváns idna encoded
     ('s1', 'schema_version'),
-    ('chf', 'hub_id'),
     ('hub1', 'hub_id'),
-    ('HUB1', 'hub_id'),
-    ('maryev%C3%A1ns', 'hub_id'),  # maryeváns % encoded
     (SCHEMA, 'schema_version'),
     ('asset', 'entity_type'),
     ('offer', 'entity_type'),
@@ -68,6 +67,7 @@ INVALID_PARTS = [
     ('openpermissions.org', 'resolver_id'),
     (SCHEMA + '1', 'schema_version'),
     ('', 'hub_id'),
+    ('HUB1', 'hub_id'),
     (u'maryeváns', 'hub_id'),
     ('assets', 'entity_type'),
     ('agreements', 'entity_type'),
@@ -111,9 +111,9 @@ def test_url_quote(string, expected):
 
 
 @pytest.mark.parametrize('hub_key', [
-    'https://openpermissions.org/s1/chf/37cd1397e0814e989fa22da6b15fec60/asset/37cd1397e0814e989fa22da6b15fec60',
-    'https://openpermissions.org/s1/chf/37cd1397e0814e989fa22da6b15fec60/offer/37cd1397e0814e989fa22da6b15fec60',
-    'https://openpermissions.org/s1/chf/37cd1397e0814e989fa22da6b15fec60/agreement/37cd1397e0814e989fa22da6b15fec60',
+    'https://openpermissions.org/s1/hub1/37cd1397e0814e989fa22da6b15fec60/asset/37cd1397e0814e989fa22da6b15fec60',
+    'https://openpermissions.org/s1/hub1/37cd1397e0814e989fa22da6b15fec60/offer/37cd1397e0814e989fa22da6b15fec60',
+    'https://openpermissions.org/s1/hub1/37cd1397e0814e989fa22da6b15fec60/agreement/37cd1397e0814e989fa22da6b15fec60',
     'https://openpermissions.org/s0/hub1/creation/maryevans/maryevanspictureid/10413373',
     'https://openpermissions.org/s0/hub1/asset/maryevans/maryevanspictureid/10413373',
     'https://openpermissions.org/s0/hub1/offer/maryevans/maryevansofferid/001',
@@ -153,11 +153,11 @@ def test_parse_valid_hub_key_s0():
 
 
 def test_parse_valid_hub_key_s1():
-    parsed = parse_hub_key('https://openpermissions.org/s1/chf/37cd1397e0814e989fa22da6b15fec60/agreement/e3cc6218db1711e5ab090242ac110013')
+    parsed = parse_hub_key('https://openpermissions.org/s1/hub1/37cd1397e0814e989fa22da6b15fec60/agreement/e3cc6218db1711e5ab090242ac110013')
     expected = {
         'resolver_id': 'https://openpermissions.org',
         'schema_version': 's1',
-        'hub_id': 'chf',
+        'hub_id': 'hub1',
         'repository_id': '37cd1397e0814e989fa22da6b15fec60',
         'entity_type': 'agreement',
         'entity_id': 'e3cc6218db1711e5ab090242ac110013',
@@ -167,7 +167,13 @@ def test_parse_valid_hub_key_s1():
 
 def test_invalid_schema():
     with pytest.raises(ValueError):
-        key = 'https://resolver-id/schema1/chf/37cd1397e0814e989fa22da6b15fec60/agreement/e3cc6218db1711e5ab090242ac110013'
+        key = 'https://resolver-id/schema1/hub1/37cd1397e0814e989fa22da6b15fec60/agreement/e3cc6218db1711e5ab090242ac110013'
+        parse_hub_key(key)
+
+
+def test_invalid_hub_id():
+    with pytest.raises(ValueError):
+        key = 'https://resolver-id/s1/chf/37cd1397e0814e989fa22da6b15fec60/agreement/e3cc6218db1711e5ab090242ac110013'
         parse_hub_key(key)
 
 
@@ -176,13 +182,13 @@ def test_parse_missing_string(part):
     if part == 'resolver_id':
         part = 'resolver-id'
 
-    key = 'https://resolver-id/s0/hub_id/licensor/provider_id/id_type/id'.replace(part, '')
+    key = 'https://resolver-id/s0/hub1/licensor/provider_id/id_type/id'.replace(part, '')
     with pytest.raises(ValueError):
         parse_hub_key(key)
 
 
 def test_parse_hub_key_with_a_dash():
-    key = 'https://resolver-id/s1/chf/37cd1397e0814e989fa22da6b15fec60/agreement/e3cc6218db1711e5ab090242ac110013'
+    key = 'https://resolver-id/s1/hub1/37cd1397e0814e989fa22da6b15fec60/agreement/e3cc6218db1711e5ab090242ac110013'
     parsed = parse_hub_key(key)
 
     assert parsed['resolver_id'] == 'https://resolver-id'
@@ -195,13 +201,13 @@ def test_parse_empty_key():
 
 def test_parsing_generated_key():
     key = generate_hub_key(
-        'https://stage.openpermissions.org', 'h', '37cd1397e0814e989fa22da6b15fec60', 'agreement')
+        'https://stage.openpermissions.org', 'hub1', '37cd1397e0814e989fa22da6b15fec60', 'agreement')
     parsed = parse_hub_key(key)
     parsed.pop('entity_id')
 
     assert parsed == {
         'resolver_id': 'https://stage.openpermissions.org',
-        'hub_id': 'h',
+        'hub_id': 'hub1',
         'schema_version': SCHEMA,
         'repository_id': '37cd1397e0814e989fa22da6b15fec60',
         'entity_type': 'agreement',
@@ -209,61 +215,65 @@ def test_parsing_generated_key():
 
 def test_parsing_generated_key_with_http():
     key = generate_hub_key(
-        'http://stage.openpermissions.org', 'h', '37cd1397e0814e989fa22da6b15fec60', 'agreement')
+        'http://stage.openpermissions.org', 'hub1', '37cd1397e0814e989fa22da6b15fec60', 'agreement')
     parsed = parse_hub_key(key)
     parsed.pop('entity_id')
 
     assert parsed == {
         'resolver_id': 'http://stage.openpermissions.org',
-        'hub_id': 'h',
+        'hub_id': 'hub1',
         'schema_version': SCHEMA,
         'repository_id': '37cd1397e0814e989fa22da6b15fec60',
         'entity_type': 'agreement',
     }
 
+
 def test_parsing_generated_key_without_scheme():
     key = generate_hub_key(
-        'stage.openpermissions.org', 'h', '37cd1397e0814e989fa22da6b15fec60', 'agreement')
+        'stage.openpermissions.org', 'hub1', '37cd1397e0814e989fa22da6b15fec60', 'agreement')
     parsed = parse_hub_key(key)
     parsed.pop('entity_id')
 
     assert parsed == {
         'resolver_id': 'https://stage.openpermissions.org',
-        'hub_id': 'h',
+        'hub_id': 'hub1',
         'schema_version': SCHEMA,
         'repository_id': '37cd1397e0814e989fa22da6b15fec60',
         'entity_type': 'agreement',
     }
 
+
 def test_generate_key_with_unicode():
     key = generate_hub_key(
-        u'https://测试', u'hüb', u'37cd1397e0814e989fa22da6b15fec60', 'offer')
+        u'https://测试', 'hub1', u'37cd1397e0814e989fa22da6b15fec60', 'offer')
 
     parsed = parse_hub_key(key)
     parsed.pop('entity_id')
 
     assert parsed == {
         'resolver_id': 'https://xn--0zwm56d',
-        'hub_id': 'h%C3%BCb',
+        'hub_id': 'hub1',
         'schema_version': SCHEMA,
         'repository_id': '37cd1397e0814e989fa22da6b15fec60',
         'entity_type': 'offer',
     }
+
 
 def test_generate_key_with_unicode_without_scheme():
     key = generate_hub_key(
-        u'测试', u'hüb', u'37cd1397e0814e989fa22da6b15fec60', 'offer')
+        u'测试', 'hub1', u'37cd1397e0814e989fa22da6b15fec60', 'offer')
 
     parsed = parse_hub_key(key)
     parsed.pop('entity_id')
 
     assert parsed == {
         'resolver_id': 'https://xn--0zwm56d',
-        'hub_id': 'h%C3%BCb',
+        'hub_id': 'hub1',
         'schema_version': SCHEMA,
         'repository_id': '37cd1397e0814e989fa22da6b15fec60',
         'entity_type': 'offer',
     }
+
 
 def test_generate_key_with_valid_entity_id():
     key = generate_hub_key(
@@ -296,3 +306,13 @@ def test_generate_key_with_invalid_entity_id():
         )
     error_msg = '{} should match {}'.format('entity_id', PARTS['entity_id'])
     assert exc.value.message == error_msg
+
+
+def test_generate_key_with_invalid_hub_id():
+    with pytest.raises(ValueError) as exc:
+        generate_hub_key('https://stage.openpermissions.org', 'invalid',
+                         '37cd1397e0814e989fa22da6b15fec60', 'agreement')
+
+    error_msg = '{} should match {}'.format('hub_id', 'hub1')
+    assert exc.value.message == error_msg
+

@@ -21,7 +21,9 @@ import uuid
 from urlparse import urlparse, urlunparse
 from urllib import quote
 from collections import OrderedDict
+from tornado.options import define, options
 
+define('hub_id', default='hub1')
 SEPARATOR = '/'
 SCHEMA = 's1'
 PROTOCOL = 'https'
@@ -44,7 +46,7 @@ RESOLVER_ID = r'{protocol}?://{label}(?:\.{label})*{port}?'.format(
 PARTS = OrderedDict([
     ('resolver_id', RESOLVER_ID),
     ('schema_version', SCHEMA),
-    ('hub_id', _PATH_PART),  # word char or -
+    ('hub_id', options.hub_id),
     ('repository_id', UUID),
     ('entity_type', '|'.join(ENTITY_TYPES)),  # word char or -
     ('entity_id', UUID)  # word char or -
@@ -54,7 +56,7 @@ PARTS = OrderedDict([
 PARTS_S0 = OrderedDict([
     ('resolver_id', RESOLVER_ID),
     ('schema_version', '(?i)s0'),
-    ('hub_id', _PATH_PART),  # word char or -
+    ('hub_id', options.hub_id),
     ('entity_type', '|'.join(['(?i)creation', '(?i)asset', '(?i)offer'])),
     ('organisation_id', _PATH_PART),
     ('id_type', _PATH_PART),
